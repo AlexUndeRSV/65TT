@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,6 +29,7 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
     private RecyclerView recView;
     private SpecialityAdapter adapter;
 
+    private List<Speciality> specList;
 
     public static SpecialityFragment newInstance(Bundle args) {
         SpecialityFragment fragment = new SpecialityFragment();
@@ -58,7 +60,15 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
 
     @Override
     public void onItemClick(int position) {
-//        Speciality speciality = specialityList.get(position);
-//        presenter.showWorkers(speciality.getId());
+        Speciality speciality = specList.get(position);
+        presenter.showWorkers(speciality);
+        Toast.makeText(getActivity(), speciality.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setSpecList(List<Speciality> specList) {
+        this.specList = specList;
+        adapter.setSpecialityList(specList);
+        adapter.notifyDataSetChanged();
     }
 }

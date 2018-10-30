@@ -41,7 +41,7 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
     @NonNull
     @Override
     public SpecialityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.spec_item, parent, false);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.spec_item_layout, parent, false);
         return new SpecialityViewHolder(view);
     }
 
@@ -65,12 +65,14 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
             super(itemView);
 
             txtTitle = itemView.findViewById(R.id.txtSpecTitle);
-            if (onSpecItemClickListener != null) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    itemView.setOnClickListener((v) -> onSpecItemClickListener.onItemClick(position));
+            itemView.setOnClickListener((v) -> {
+                if (onSpecItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onSpecItemClickListener.onItemClick(position);
+                    }
                 }
-            }
+            });
         }
     }
 }

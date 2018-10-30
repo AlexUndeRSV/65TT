@@ -1,4 +1,4 @@
-package com.lynx.testtask65apps.data.repositories;
+package com.lynx.testtask65apps.domain.interactor;
 
 import com.lynx.testtask65apps.App;
 import com.lynx.testtask65apps.domain.dataclass.RequestResult;
@@ -9,11 +9,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoadWorkersInfoInteractor {
 
-    public void loadWorkersInfo(SingleObserver<RequestResult> sub){
+    public void loadWorkersInfo(SingleObserver<RequestResult> sub) {
         App.getNetworkService().workersApi
                 .getWorkersInfo()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(sub);
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(sub);
     }
 }

@@ -3,6 +3,7 @@ package com.lynx.testtask65apps;
 import android.app.Application;
 
 import com.lynx.testtask65apps.data.net.NetworkService;
+import com.lynx.testtask65apps.data.repositories.DBRepository;
 
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -16,6 +17,7 @@ public class App extends Application {
 
     private NetworkService networkService;
 
+    private DBRepository dbRepository;
 
     @Override
     public void onCreate() {
@@ -24,6 +26,7 @@ public class App extends Application {
         INSTANCE = this;
         cicerone = Cicerone.create();
         networkService = new NetworkService();
+        dbRepository = new DBRepository(this);
     }
 
     public static NavigatorHolder getNavigatorHolder() {
@@ -36,5 +39,9 @@ public class App extends Application {
 
     public static NetworkService getNetworkService() {
         return INSTANCE.networkService;
+    }
+
+    public static DBRepository getDBRepositpry(){
+        return INSTANCE.dbRepository;
     }
 }

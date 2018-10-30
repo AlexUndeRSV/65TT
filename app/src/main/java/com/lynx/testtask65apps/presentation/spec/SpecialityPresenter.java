@@ -4,7 +4,8 @@ package com.lynx.testtask65apps.presentation.spec;
 import android.os.Bundle;
 
 import com.lynx.testtask65apps.App;
-import com.lynx.testtask65apps.data.repositories.LoadWorkersInfoInteractor;
+import com.lynx.testtask65apps.domain.dataclass.Speciality;
+import com.lynx.testtask65apps.domain.interactor.LoadWorkersInfoInteractor;
 import com.lynx.testtask65apps.domain.dataclass.RequestResult;
 import com.lynx.testtask65apps.domain.dataclass.Response;
 import com.lynx.testtask65apps.other.Constants;
@@ -61,17 +62,23 @@ public class SpecialityPresenter extends MvpPresenter<SpecialityView> {
 
     }
 
-    private void saveData(List<Response> response) {
-        
+    private void saveData(List<Response> responseList) {
+        for (Response response : responseList) {
+            App.getDBRepositpry().saveWorker(response);
+            App.getDBRepositpry().saveSpeciality(response.getSpecialty().get(0));
+        }
+
+        getViewState().setSpecList(App.getDBRepositpry().getSpecList());
     }
 
     public void hideBaseToolbar() {
         EventBus.getDefault().post(new HideBaseToolbarEvent());
     }
 
-    public void showWorkers(String id) {
+    public void showWorkers(Speciality speciality) {
         Bundle args = new Bundle();
-        args.putString(Constants.BundleKeys.ID_KEY, id);
+        args.putString(Constants.BundleKeys.ID_KEY, speciality.getId());
+        args.putString(Constants.BundleKeys.TITLE_KEY, speciality.getName());
         App.getRouter().navigateTo(Screen.WORKERS.name(), args);
     }
 
