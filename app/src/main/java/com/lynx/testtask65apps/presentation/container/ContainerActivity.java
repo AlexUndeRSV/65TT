@@ -75,4 +75,9 @@ public class ContainerActivity extends MvpAppCompatActivity implements Container
     public void showBaseToolbar() {
         toolbar.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void setToolbarTitle(String title) {
+        toolbar.setTitle(title);
+    }
 }

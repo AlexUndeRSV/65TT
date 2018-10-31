@@ -62,7 +62,6 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
     public void onItemClick(int position) {
         Speciality speciality = specList.get(position);
         presenter.showWorkers(speciality);
-        Toast.makeText(getActivity(), speciality.getId(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

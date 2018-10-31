@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lynx.testtask65apps.other.events.HideBaseToolbarEvent;
 import com.lynx.testtask65apps.other.events.HideLoaderEvent;
+import com.lynx.testtask65apps.other.events.SetToolbarTitleEvent;
 import com.lynx.testtask65apps.other.events.ShowBaseToolbarEvent;
 import com.lynx.testtask65apps.other.events.ShowLoaderEvent;
 
@@ -40,5 +41,10 @@ public class ContainerPresenter extends MvpPresenter<ContainerView> {
     @Subscribe
     public void onShowBaseToolbar(ShowBaseToolbarEvent event){
         getViewState().showBaseToolbar();
+    }
+
+    @Subscribe
+    public void onSetToolbarTitle(SetToolbarTitleEvent event){
+        getViewState().setToolbarTitle(event.getTitle());
     }
 }

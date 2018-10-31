@@ -46,7 +46,7 @@ public class Response {
         this.birthday = birthday;
     }
 
-    public String getAvatrUrl() {
+    public String getAvatarUrl() {
         return avatrUrl;
     }
 

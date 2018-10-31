@@ -41,7 +41,7 @@ public class App extends Application {
         return INSTANCE.networkService;
     }
 
-    public static DBRepository getDBRepositpry(){
+    public static DBRepository getDBRepository(){
         return INSTANCE.dbRepository;
     }
 }

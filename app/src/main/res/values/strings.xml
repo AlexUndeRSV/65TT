@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TestTask65apps</string>
+    <string name="age">Кол-во лет:</string>
 </resources>

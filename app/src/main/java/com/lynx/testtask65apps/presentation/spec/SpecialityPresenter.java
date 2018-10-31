@@ -63,12 +63,13 @@ public class SpecialityPresenter extends MvpPresenter<SpecialityView> {
     }
 
     private void saveData(List<Response> responseList) {
+        App.getDBRepository().deleteTable(Constants.Database.WorkersTable.TABLE_NAME);
         for (Response response : responseList) {
-            App.getDBRepositpry().saveWorker(response);
-            App.getDBRepositpry().saveSpeciality(response.getSpecialty().get(0));
+            App.getDBRepository().saveWorker(response);
+            App.getDBRepository().saveSpecialities(response.getSpecialty());
         }
 
-        getViewState().setSpecList(App.getDBRepositpry().getSpecList());
+        getViewState().setSpecList(App.getDBRepository().getSpecList());
     }
 
     public void hideBaseToolbar() {

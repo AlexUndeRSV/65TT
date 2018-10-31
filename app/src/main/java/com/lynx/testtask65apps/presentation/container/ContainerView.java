@@ -8,4 +8,6 @@ public interface ContainerView extends MvpView {
 
     void hideBaseToolbar();
     void showBaseToolbar();
+
+    void setToolbarTitle(String title);
 }

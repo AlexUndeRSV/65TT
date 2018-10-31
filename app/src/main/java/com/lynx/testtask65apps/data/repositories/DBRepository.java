@@ -5,19 +5,23 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lynx.testtask65apps.data.db.DBHelper;
 import com.lynx.testtask65apps.domain.dataclass.Response;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
 import com.lynx.testtask65apps.other.Constants.Database.SpecialityTable;
 import com.lynx.testtask65apps.other.Constants.Database.WorkersTable;
+import com.lynx.testtask65apps.other.utils.CorrectUtils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DBRepository {
 
     private static final String DB_NAME = "workers_db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 6;
 
     private DBHelper dbHelper;
 
@@ -28,14 +32,20 @@ public class DBRepository {
     public void saveWorker(Response response) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues cv = new ContentValues();
+        Gson gson = new Gson();
 
-        cv.put(WorkersTable.Columns.COLUMN_FIRST_NAME, response.getFName());
-        cv.put(WorkersTable.Columns.COLUMN_LAST_NAME, response.getLName());
-        cv.put(WorkersTable.Columns.COLUMN_AVATAR_URL, response.getAvatrUrl());
-        cv.put(WorkersTable.Columns.COLUMN_BIRTHDAY, response.getBirthday());
-        cv.put(WorkersTable.Columns.COLUMN_SPEC_ID, response.getSpecialty().get(0).getId());
-//        cv.put(WorkersTable.Columns.COLUMN_SPEC_TITLE, response.getSpecialty().get(0).getName());
+        ContentValues cv = new ContentValues();
+        List<String> idList = new ArrayList<>();
+
+        for (Speciality speciality : response.getSpecialty()) {
+            if (!idList.contains(speciality.getId())) idList.add(speciality.getId());
+        }
+
+        cv.put(WorkersTable.Columns.COLUMN_FIRST_NAME, CorrectUtils.nameToRequiredLook(response.getFName()));
+        cv.put(WorkersTable.Columns.COLUMN_LAST_NAME, CorrectUtils.nameToRequiredLook(response.getLName()));
+        cv.put(WorkersTable.Columns.COLUMN_AVATAR_URL, response.getAvatarUrl());
+        cv.put(WorkersTable.Columns.COLUMN_BIRTHDAY, CorrectUtils.birthdayToRequiredLook(response.getBirthday()));
+        cv.put(WorkersTable.Columns.COLUMN_SPEC_IDS, gson.toJson(idList));
 
         db.insert(WorkersTable.TABLE_NAME, null, cv);
 
@@ -66,15 +76,129 @@ public class DBRepository {
         return specialityList;
     }
 
-    public void saveSpeciality(Speciality speciality) {
+    public void saveSpecialities(List<Speciality> specialityList) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
 
-        cv.put(SpecialityTable.Columns.COLUMN_ID, speciality.getId());
-        cv.put(SpecialityTable.Columns.COLUMN_TITLE, speciality.getName());
+        for (Speciality speciality : specialityList) {
+            cv.put(SpecialityTable.Columns.COLUMN_ID, speciality.getId());
+            cv.put(SpecialityTable.Columns.COLUMN_TITLE, speciality.getName());
+            db.insert(SpecialityTable.TABLE_NAME, null, cv);
+        }
 
-        db.insert(SpecialityTable.TABLE_NAME, null, cv);
+        db.close();
+    }
+
+    public List<Response> getWorkersList(String specId) {
+        List<Response> responseList = new ArrayList<>();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + WorkersTable.TABLE_NAME, null);
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+
+        boolean isContains;
+
+        if (cursor.moveToFirst()) {
+            do {
+                isContains = true;
+
+                List<String> idList = gson.fromJson(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_SPEC_IDS)), type);
+                if (!idList.contains(specId)) isContains = false;
+
+                Response response = new Response();
+
+                response.setFName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_FIRST_NAME)));
+                response.setLName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_LAST_NAME)));
+                response.setAvatrUrl(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_AVATAR_URL)));
+                response.setBirthday(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_BIRTHDAY)));
+
+                if (isContains) responseList.add(response);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return responseList;
+    }
+
+    // На случай появления primary key у работника
+//    public void saveWorkerList(List<Response> responseList) {
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//
+//        Gson gson = new Gson();
+//
+//        db.beginTransaction();
+//
+//        /*//delete
+//        db.execSQL(String.format("DELETE FROM " + WorkersTable.TABLE_NAME + " WHERE " + WorkersTable.Columns.COLUMN_AVATAR_URL + " NOT IN (%s)", toUrls(responseList)) + ";");
+//
+//        // update
+//        ContentValues cv = new ContentValues();
+//        for (int i = 0; i < responseList.size(); i++) {
+////            cv.put(WorkersTable.Columns.COLUMN_SPEC_IDS, responseList.get(i).);
+//            cv.put(WorkersTable.Columns.COLUMN_BIRTHDAY, responseList.get(i).getBirthday());
+//            cv.put(WorkersTable.Columns.COLUMN_FIRST_NAME, responseList.get(i).getFName());
+//            cv.put(WorkersTable.Columns.COLUMN_LAST_NAME, responseList.get(i).getLName());
+//            cv.put(WorkersTable.Columns.COLUMN_AVATAR_URL, responseList.get(i).getAvatarUrl());
+//            db.update(WorkersTable.TABLE_NAME, cv, WorkersTable.Columns.COLUMN_AVATAR_URL + " = ?", new String[]{responseList.get(i).getAvatarUrl()});
+//        }*/
+//
+//        //insert or ignore
+//        StringBuilder values = new StringBuilder();
+//
+//        List<String> idList = new ArrayList<>();
+//
+//        for (int i = 0; i < responseList.size(); i++) {
+//            for (Speciality speciality : responseList.get(i).getSpecialty()) {
+//                if (!idList.contains(speciality.getId())) idList.add(speciality.getId());
+//            }
+//            if (i != 0) values.append(",");
+//            values.append("('")
+//                    .append(nameToRequiredLook(responseList.get(i).getFName())).append("','")
+//                    .append(nameToRequiredLook(responseList.get(i).getLName())).append("','")
+//                    .append(responseList.get(i).getAvatarUrl()).append("','")
+//                    .append(responseList.get(i).getBirthday()).append("','")
+//                    .append(gson.toJson(idList))
+//                    .append("')");
+//        }
+//        db.execSQL("INSERT OR IGNORE INTO " + WorkersTable.TABLE_NAME +
+//                "(" + WorkersTable.Columns.COLUMN_FIRST_NAME + ","
+//                + WorkersTable.Columns.COLUMN_LAST_NAME + ","
+//                + WorkersTable.Columns.COLUMN_AVATAR_URL + ","
+//                + WorkersTable.Columns.COLUMN_BIRTHDAY + ","
+//                + WorkersTable.Columns.COLUMN_SPEC_IDS
+//                + ")" +
+//                " VALUES " + values + ";");
+//
+//        db.setTransactionSuccessful();
+//        db.endTransaction();
+//
+//        db.close();
+//    }
+
+    /*private String toUrls(List<Response> responseList) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < responseList.size(); i++) {
+            if (i != 0) sb.append(",");
+            sb.append("'");
+            sb.append(responseList.get(i).getAvatarUrl());
+            sb.append("'");
+        }
+        return sb.toString();
+    }*/
+
+    public void deleteTable(String tableName) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete(tableName, null, null);
 
         db.close();
     }
