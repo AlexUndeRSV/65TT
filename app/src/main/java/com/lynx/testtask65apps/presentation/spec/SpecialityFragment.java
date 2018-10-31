@@ -6,19 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.lynx.testtask65apps.R;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
-import com.lynx.testtask65apps.other.events.HideBaseToolbarEvent;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
 import com.lynx.testtask65apps.presentation.spec.adapter.SpecialityAdapter;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SpecialityFragment extends MvpAppCompatFragment implements SpecialityView, SpecialityAdapter.OnSpecItemClickListener {
@@ -48,6 +43,7 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
         super.onViewCreated(view, savedInstanceState);
 
         presenter.hideBaseToolbar();
+        presenter.enableSTW();
 
         recView = view.findViewById(R.id.recViewSpec);
         adapter = new SpecialityAdapter(getActivity());
@@ -56,6 +52,8 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
         recView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recView.addItemDecoration(new LinearItemDecorator(20));
         recView.setAdapter(adapter);
+
+        presenter.getSpecList();
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.lynx.testtask65apps.R;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.commands.Back;
@@ -18,7 +17,7 @@ import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
-public class CustomNavigator implements Navigator{
+public class CustomNavigator implements Navigator {
 
     private final Activity activity;
     private final FragmentManager fragmentManager;
@@ -121,7 +120,7 @@ public class CustomNavigator implements Navigator{
         }
     }
 
-    protected Fragment createFragment(String screenKey, Object data){
+    protected Fragment createFragment(String screenKey, Object data) {
         return Screen.valueOf(screenKey).create((Bundle) data);
     }
 

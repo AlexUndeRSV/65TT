@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lynx.testtask65apps.data.db.DBHelper;
-import com.lynx.testtask65apps.domain.dataclass.Response;
+import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
 import com.lynx.testtask65apps.other.Constants.Database.SpecialityTable;
 import com.lynx.testtask65apps.other.Constants.Database.WorkersTable;
@@ -21,7 +21,7 @@ import java.util.List;
 public class DBRepository {
 
     private static final String DB_NAME = "workers_db";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 14;
 
     private DBHelper dbHelper;
 
@@ -29,7 +29,7 @@ public class DBRepository {
         this.dbHelper = new DBHelper(ctx, DB_NAME, null, DB_VERSION);
     }
 
-    public void saveWorker(Response response) {
+    public void saveWorker(Worker worker) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         Gson gson = new Gson();
@@ -37,14 +37,14 @@ public class DBRepository {
         ContentValues cv = new ContentValues();
         List<String> idList = new ArrayList<>();
 
-        for (Speciality speciality : response.getSpecialty()) {
+        for (Speciality speciality : worker.getSpecialty()) {
             if (!idList.contains(speciality.getId())) idList.add(speciality.getId());
         }
 
-        cv.put(WorkersTable.Columns.COLUMN_FIRST_NAME, CorrectUtils.nameToRequiredLook(response.getFName()));
-        cv.put(WorkersTable.Columns.COLUMN_LAST_NAME, CorrectUtils.nameToRequiredLook(response.getLName()));
-        cv.put(WorkersTable.Columns.COLUMN_AVATAR_URL, response.getAvatarUrl());
-        cv.put(WorkersTable.Columns.COLUMN_BIRTHDAY, CorrectUtils.birthdayToRequiredLook(response.getBirthday()));
+        cv.put(WorkersTable.Columns.COLUMN_FIRST_NAME, CorrectUtils.nameToRequiredLook(worker.getFName()));
+        cv.put(WorkersTable.Columns.COLUMN_LAST_NAME, CorrectUtils.nameToRequiredLook(worker.getLName()));
+        cv.put(WorkersTable.Columns.COLUMN_AVATAR_URL, worker.getAvatarUrl());
+        cv.put(WorkersTable.Columns.COLUMN_BIRTHDAY, CorrectUtils.birthdayToRequiredLook(worker.getBirthday()));
         cv.put(WorkersTable.Columns.COLUMN_SPEC_IDS, gson.toJson(idList));
 
         db.insert(WorkersTable.TABLE_NAME, null, cv);
@@ -90,8 +90,8 @@ public class DBRepository {
         db.close();
     }
 
-    public List<Response> getWorkersList(String specId) {
-        List<Response> responseList = new ArrayList<>();
+    public List<Worker> getWorkersList(String specId) {
+        List<Worker> workerList = new ArrayList<>();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -116,16 +116,16 @@ public class DBRepository {
                     specialityList.add(getSpecialityById(id));
                 }
 
-                Response response = new Response();
+                Worker worker = new Worker();
 
-                response.setFName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_FIRST_NAME)));
-                response.setLName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_LAST_NAME)));
-                response.setAvatrUrl(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_AVATAR_URL)));
-                response.setBirthday(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_BIRTHDAY)));
+                worker.setFName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_FIRST_NAME)));
+                worker.setLName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_LAST_NAME)));
+                worker.setAvatrUrl(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_AVATAR_URL)));
+                worker.setBirthday(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_BIRTHDAY)));
 
-                response.setSpecialty(specialityList);
+                worker.setSpecialty(specialityList);
 
-                if (isContains) responseList.add(response);
+                if (isContains) workerList.add(worker);
 
             } while (cursor.moveToNext());
         }
@@ -133,7 +133,7 @@ public class DBRepository {
         cursor.close();
         db.close();
 
-        return responseList;
+        return workerList;
     }
 
     private Speciality getSpecialityById(String id) {
@@ -143,7 +143,7 @@ public class DBRepository {
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME + " WHERE " + SpecialityTable.Columns.COLUMN_ID + " = ?", new String[]{id});
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             speciality.setId(id);
             speciality.setName(cursor.getString(cursor.getColumnIndex(SpecialityTable.Columns.COLUMN_TITLE)));
         }
@@ -154,7 +154,8 @@ public class DBRepository {
     }
 
     // На случай появления primary key у работника
-//    public void saveWorkerList(List<Response> responseList) {
+
+//    public void saveWorkerList(List<Worker> responseList) {
 //        SQLiteDatabase db = dbHelper.getWritableDatabase();
 //
 //        Gson gson = new Gson();
@@ -208,23 +209,26 @@ public class DBRepository {
 //        db.close();
 //    }
 
-    /*private String toUrls(List<Response> responseList) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < responseList.size(); i++) {
-            if (i != 0) sb.append(",");
-            sb.append("'");
-            sb.append(responseList.get(i).getAvatarUrl());
-            sb.append("'");
-        }
-        return sb.toString();
-    }*/
-
     public void deleteTable(String tableName) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         db.delete(tableName, null, null);
 
         db.close();
+    }
+
+    public boolean isEmpty() {
+        boolean isEmpty = true;
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) isEmpty = false;
+
+        cursor.close();
+        db.close();
+
+        return isEmpty;
     }
 }

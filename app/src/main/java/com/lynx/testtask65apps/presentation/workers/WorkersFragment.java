@@ -7,15 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lynx.testtask65apps.domain.dataclass.Response;
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.lynx.testtask65apps.R;
+import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
-
-import com.arellomobile.mvp.MvpAppCompatFragment;
-
-import com.lynx.testtask65apps.R;
-
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.lynx.testtask65apps.presentation.workers.adapter.WorkersAdapter;
 
 import java.util.ArrayList;
@@ -32,7 +29,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
     private RecyclerView recView;
     private WorkersAdapter adapter;
 
-    private List<Response> workersList;
+    private List<Worker> workersList;
 
     public static WorkersFragment newInstance(Bundle args) {
         WorkersFragment fragment = new WorkersFragment();
@@ -46,7 +43,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
 
         Bundle args = getArguments();
 
-        if(args != null) {
+        if (args != null) {
             specId = args.getString(Constants.BundleKeys.ID_KEY);
             specTitle = args.getString(Constants.BundleKeys.TITLE_KEY);
         }
@@ -66,6 +63,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
 
         presenter.showToolbar();
         presenter.setToolbarTitle(specTitle);
+        presenter.enableSTW();
 
         workersList = new ArrayList<>();
 
@@ -79,7 +77,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
     }
 
     @Override
-    public void setWorkersList(List<Response> workersList) {
+    public void setWorkersList(List<Worker> workersList) {
         this.workersList = workersList;
         adapter.setWorkersList(workersList);
         adapter.notifyDataSetChanged();
@@ -87,7 +85,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
 
     @Override
     public void onItemClick(int position) {
-        Response response = workersList.get(position);
-        presenter.showDetailInfo(response);
+        Worker worker = workersList.get(position);
+        presenter.showDetailInfo(worker);
     }
 }

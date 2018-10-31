@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.lynx.testtask65apps.R;
-import com.lynx.testtask65apps.domain.dataclass.Response;
+import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.utils.CorrectUtils;
 import com.squareup.picasso.Picasso;
@@ -22,7 +22,7 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     @InjectPresenter
     DetailPresenter presenter;
 
-    private Response response;
+    private Worker worker;
 
     private ImageView collapsingImage;
     private TextView txtFName, txtLName, txtBirthday, txtAge, txtSpec;
@@ -42,8 +42,8 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
         Bundle args = getArguments();
         if (args != null) {
-            response = args.getParcelable(Constants.BundleKeys.WORKER_KEY);
-            response.setSpecialty(args.getParcelableArrayList(Constants.BundleKeys.SPEC_KEY));
+            worker = args.getParcelable(Constants.BundleKeys.WORKER_KEY);
+            worker.setSpecialty(args.getParcelableArrayList(Constants.BundleKeys.SPEC_KEY));
         }
     }
 
@@ -58,13 +58,14 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
         super.onViewCreated(view, savedInstanceState);
 
         presenter.hideBaseToolbar();
+        presenter.disableSTW();
 
         toolbar = view.findViewById(R.id.toolbar_collapsing);
         toolbar.setNavigationOnClickListener((v) -> presenter.onBackPressed());
 
         collapsingToolbar = view.findViewById(R.id.collapsingToolbar);
 
-        String title = response.getLName() + " " + getActivity().getString(R.string.details);
+        String title = worker.getLName() + " " + getActivity().getString(R.string.details);
         collapsingToolbar.setTitle(title);
 
         collapsingImage = view.findViewById(R.id.collapsingImage);
@@ -74,22 +75,22 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
         txtAge = view.findViewById(R.id.txtAgeDetail);
         txtSpec = view.findViewById(R.id.txtSpecDetail);
 
-        txtAge.setText(CorrectUtils.getAge(response.getBirthday()));
-        txtFName.setText(response.getFName());
-        txtLName.setText(response.getLName());
-        txtBirthday.setText(response.getBirthday());
+        txtAge.setText(CorrectUtils.getAge(worker.getBirthday()));
+        txtFName.setText(worker.getFName());
+        txtLName.setText(worker.getLName());
+        txtBirthday.setText(worker.getBirthday());
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < response.getSpecialty().size(); i++) {
-            sb.append(response.getSpecialty().get(i).getName());
-            if (i != response.getSpecialty().size() - 1) sb.append(",\n");
+        for (int i = 0; i < worker.getSpecialty().size(); i++) {
+            sb.append(worker.getSpecialty().get(i).getName());
+            if (i != worker.getSpecialty().size() - 1) sb.append(",\n");
         }
 
         txtSpec.setText(sb.toString());
 
-        if (response.getAvatarUrl() == null || response.getAvatarUrl().isEmpty())
+        if (worker.getAvatarUrl() == null || worker.getAvatarUrl().isEmpty())
             collapsingImage.setImageResource(R.drawable.ic_placeholder);
         else
-            Picasso.with(getActivity()).load(response.getAvatarUrl()).placeholder(R.drawable.ic_placeholder).into(collapsingImage);
+            Picasso.with(getActivity()).load(worker.getAvatarUrl()).placeholder(R.drawable.ic_placeholder).into(collapsingImage);
     }
 }

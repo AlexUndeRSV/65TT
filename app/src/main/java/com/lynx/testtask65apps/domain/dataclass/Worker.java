@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Response implements Parcelable {
+public class Worker implements Parcelable {
     @SerializedName("f_name")
     @Expose
     private String fName;
@@ -26,9 +26,9 @@ public class Response implements Parcelable {
     @Expose
     private ArrayList<Speciality> specialty = null;
 
-    public Response(){}
+    public Worker(){}
 
-    protected Response(Parcel in) {
+    protected Worker(Parcel in) {
         fName = in.readString();
         lName = in.readString();
         birthday = in.readString();
@@ -37,15 +37,15 @@ public class Response implements Parcelable {
         in.readTypedList(specialityList, Speciality.CREATOR);
     }
 
-    public static final Creator<Response> CREATOR = new Creator<Response>() {
+    public static final Creator<Worker> CREATOR = new Creator<Worker>() {
         @Override
-        public Response createFromParcel(Parcel in) {
-            return new Response(in);
+        public Worker createFromParcel(Parcel in) {
+            return new Worker(in);
         }
 
         @Override
-        public Response[] newArray(int size) {
-            return new Response[size];
+        public Worker[] newArray(int size) {
+            return new Worker[size];
         }
     };
 

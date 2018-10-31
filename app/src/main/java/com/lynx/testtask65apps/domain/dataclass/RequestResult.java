@@ -8,13 +8,13 @@ import java.util.List;
 public class RequestResult {
     @SerializedName("response")
     @Expose
-    private List<Response> response = null;
+    private List<Worker> worker = null;
 
-    public List<Response> getResponse() {
-        return response;
+    public List<Worker> getWorker() {
+        return worker;
     }
 
-    public void setResponse(List<Response> response) {
-        this.response = response;
+    public void setWorker(List<Worker> worker) {
+        this.worker = worker;
     }
 }

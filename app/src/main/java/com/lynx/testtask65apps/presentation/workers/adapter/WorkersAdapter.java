@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lynx.testtask65apps.R;
-import com.lynx.testtask65apps.domain.dataclass.Response;
+import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.other.utils.CorrectUtils;
 import com.squareup.picasso.Picasso;
 
@@ -30,14 +30,14 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
     }
 
     private Context ctx;
-    private List<Response> workersList;
+    private List<Worker> workersList;
 
     public WorkersAdapter(Context ctx) {
         this.ctx = ctx;
         workersList = new ArrayList<>();
     }
 
-    public void setWorkersList(List<Response> workersList) {
+    public void setWorkersList(List<Worker> workersList) {
         this.workersList = workersList;
     }
 
@@ -50,16 +50,16 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
 
     @Override
     public void onBindViewHolder(@NonNull WorkersViewHolder holder, int position) {
-        Response response = workersList.get(position);
+        Worker worker = workersList.get(position);
 
-        holder.txtFirstName.setText(response.getFName());
-        holder.txtLastName.setText(response.getLName());
-        holder.txtAge.setText(CorrectUtils.getAge(response.getBirthday()));
+        holder.txtFirstName.setText(worker.getFName());
+        holder.txtLastName.setText(worker.getLName());
+        holder.txtAge.setText(CorrectUtils.getAge(worker.getBirthday()));
 
-        if (response.getAvatarUrl() == null || response.getAvatarUrl().isEmpty())
+        if (worker.getAvatarUrl() == null || worker.getAvatarUrl().isEmpty())
             holder.imgWorkerAvatar.setImageResource(R.drawable.ic_placeholder);
         else
-            Picasso.with(ctx).load(response.getAvatarUrl()).placeholder(R.drawable.ic_placeholder).into(holder.imgWorkerAvatar);
+            Picasso.with(ctx).load(worker.getAvatarUrl()).placeholder(R.drawable.ic_placeholder).into(holder.imgWorkerAvatar);
 
     }
 

@@ -6,4 +6,6 @@
     <string name="last_name">Фамилия:</string>
     <string name="birthday">Дата рождения:</string>
     <string name="spec">Специальности:</string>
+    <string name="not_net">Отсутствует подключение к интернету</string>
+    <string name="refresh">ОБНОВИТЬ</string>
 </resources>
