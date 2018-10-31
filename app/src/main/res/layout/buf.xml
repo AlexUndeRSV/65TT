@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/txtFNameDetailBuf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/first_name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtFNameDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/txtFNameDetailBuf"
+        android:layout_toRightOf="@+id/txtFNameDetailBuf"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:text="Петя" />
+
+    <TextView
+        android:id="@+id/txtLNameDetailBuf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtFNameDetail"
+        android:padding="16dp"
+        android:text="@string/last_name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtLNameDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtFNameDetail"
+        android:layout_toEndOf="@+id/txtLNameDetailBuf"
+        android:layout_toRightOf="@+id/txtLNameDetailBuf"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:text="Петя" />
+
+    <TextView
+        android:id="@+id/txtBirthdayDetailBuf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLNameDetail"
+        android:padding="16dp"
+        android:text="@string/birthday"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtBirthdayDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLNameDetail"
+        android:layout_toEndOf="@+id/txtBirthdayDetailBuf"
+        android:layout_toRightOf="@+id/txtBirthdayDetailBuf"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:text="Петя" />
+
+    <TextView
+        android:id="@+id/txtAgeDetailBuf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtBirthdayDetail"
+        android:padding="16dp"
+        android:text="@string/age"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtAgeDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtBirthdayDetail"
+        android:layout_toEndOf="@+id/txtAgeDetailBuf"
+        android:layout_toRightOf="@+id/txtAgeDetailBuf"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:text="Петя" />
+
+    <TextView
+        android:id="@+id/txtSpecDetailBuf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAgeDetail"
+        android:padding="16dp"
+        android:text="@string/spec"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtSpecDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAgeDetail"
+        android:layout_toEndOf="@+id/txtSpecDetailBuf"
+        android:layout_toRightOf="@+id/txtSpecDetailBuf"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        tools:text="Петя" />
+
+</RelativeLayout>

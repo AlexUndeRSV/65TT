@@ -5,9 +5,9 @@ import android.os.Bundle;
 
 import com.lynx.testtask65apps.App;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
+import com.lynx.testtask65apps.domain.dataclass.Response;
 import com.lynx.testtask65apps.domain.interactor.LoadWorkersInfoInteractor;
 import com.lynx.testtask65apps.domain.dataclass.RequestResult;
-import com.lynx.testtask65apps.domain.dataclass.Response;
 import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.Screen;
 import com.lynx.testtask65apps.other.events.HideBaseToolbarEvent;

@@ -1,11 +1,15 @@
 package com.lynx.testtask65apps.domain.dataclass;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Response {
+public class Response implements Parcelable {
     @SerializedName("f_name")
     @Expose
     private String fName;
@@ -20,7 +24,44 @@ public class Response {
     private String avatrUrl;
     @SerializedName("specialty")
     @Expose
-    private List<Speciality> specialty = null;
+    private ArrayList<Speciality> specialty = null;
+
+    public Response(){}
+
+    protected Response(Parcel in) {
+        fName = in.readString();
+        lName = in.readString();
+        birthday = in.readString();
+        avatrUrl = in.readString();
+        List<Speciality> specialityList = new ArrayList<>();
+        in.readTypedList(specialityList, Speciality.CREATOR);
+    }
+
+    public static final Creator<Response> CREATOR = new Creator<Response>() {
+        @Override
+        public Response createFromParcel(Parcel in) {
+            return new Response(in);
+        }
+
+        @Override
+        public Response[] newArray(int size) {
+            return new Response[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(fName);
+        dest.writeString(lName);
+        dest.writeString(birthday);
+        dest.writeString(avatrUrl);
+        dest.writeList(specialty);
+    }
 
     public String getFName() {
         return fName;
@@ -54,11 +95,12 @@ public class Response {
         this.avatrUrl = avatrUrl;
     }
 
-    public List<Speciality> getSpecialty() {
+    public ArrayList<Speciality> getSpecialty() {
         return specialty;
     }
 
-    public void setSpecialty(List<Speciality> specialty) {
+    public void setSpecialty(ArrayList<Speciality> specialty) {
         this.specialty = specialty;
     }
+
 }

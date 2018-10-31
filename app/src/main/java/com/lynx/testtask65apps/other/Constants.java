@@ -48,6 +48,8 @@ public class Constants {
     public static class BundleKeys{
         public static final String ID_KEY = "id_key";
         public static final String TITLE_KEY = "title_key";
+        public static final String WORKER_KEY = "worker_key";
+        public static final String SPEC_KEY = "spec_key";
     }
 
     public static class WorkersApi{

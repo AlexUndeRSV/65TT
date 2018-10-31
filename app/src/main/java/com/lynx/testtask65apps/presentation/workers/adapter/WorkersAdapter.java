@@ -19,6 +19,16 @@ import java.util.List;
 
 public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersViewHolder> {
 
+    public interface OnWorkerItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private OnWorkerItemClickListener onWorkerItemClickListener = null;
+
+    public void setOnWorkerItemClickListener(OnWorkerItemClickListener onWorkerItemClickListener) {
+        this.onWorkerItemClickListener = onWorkerItemClickListener;
+    }
+
     private Context ctx;
     private List<Response> workersList;
 
@@ -44,14 +54,12 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
 
         holder.txtFirstName.setText(response.getFName());
         holder.txtLastName.setText(response.getLName());
-        if (response.getBirthday() == null || response.getBirthday().isEmpty())
-            holder.txtAge.setText("-");
-        else {
-            holder.txtAge.setText(CorrectUtils.getAge(response.getBirthday()));
-        }
+        holder.txtAge.setText(CorrectUtils.getAge(response.getBirthday()));
 
-        if (response.getAvatarUrl() == null || response.getAvatarUrl().isEmpty()) holder.imgWorkerAvatar.setImageResource(R.drawable.ic_placeholder);
-        else Picasso.with(ctx).load(response.getAvatarUrl()).placeholder(R.drawable.ic_placeholder).into(holder.imgWorkerAvatar);
+        if (response.getAvatarUrl() == null || response.getAvatarUrl().isEmpty())
+            holder.imgWorkerAvatar.setImageResource(R.drawable.ic_placeholder);
+        else
+            Picasso.with(ctx).load(response.getAvatarUrl()).placeholder(R.drawable.ic_placeholder).into(holder.imgWorkerAvatar);
 
     }
 
@@ -72,6 +80,15 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
             txtFirstName = itemView.findViewById(R.id.txtFirstName);
             txtLastName = itemView.findViewById(R.id.txtLastName);
             imgWorkerAvatar = itemView.findViewById(R.id.imgWorkerAva);
+
+            itemView.setOnClickListener((v) -> {
+                if (onWorkerItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onWorkerItemClickListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 }

@@ -107,8 +107,14 @@ public class DBRepository {
             do {
                 isContains = true;
 
+                ArrayList<Speciality> specialityList = new ArrayList<>();
+
                 List<String> idList = gson.fromJson(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_SPEC_IDS)), type);
                 if (!idList.contains(specId)) isContains = false;
+
+                for (String id : idList) {
+                    specialityList.add(getSpecialityById(id));
+                }
 
                 Response response = new Response();
 
@@ -116,6 +122,8 @@ public class DBRepository {
                 response.setLName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_LAST_NAME)));
                 response.setAvatrUrl(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_AVATAR_URL)));
                 response.setBirthday(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_BIRTHDAY)));
+
+                response.setSpecialty(specialityList);
 
                 if (isContains) responseList.add(response);
 
@@ -126,6 +134,23 @@ public class DBRepository {
         db.close();
 
         return responseList;
+    }
+
+    private Speciality getSpecialityById(String id) {
+        Speciality speciality = new Speciality();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME + " WHERE " + SpecialityTable.Columns.COLUMN_ID + " = ?", new String[]{id});
+
+        if(cursor.moveToFirst()){
+            speciality.setId(id);
+            speciality.setName(cursor.getString(cursor.getColumnIndex(SpecialityTable.Columns.COLUMN_TITLE)));
+        }
+
+        db.close();
+
+        return speciality;
     }
 
     // На случай появления primary key у работника

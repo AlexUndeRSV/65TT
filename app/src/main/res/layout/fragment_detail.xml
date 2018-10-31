@@ -1,0 +1,171 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.detail.DetailFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            tools:title="Details">
+
+            <ImageView
+                android:id="@+id/collapsingImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:src="@drawable/ic_placeholder" />
+
+            <include layout="@layout/collapsing_toolbar" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txtFNameDetailBuf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtFNameDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/txtFNameDetailBuf"
+                android:layout_toRightOf="@+id/txtFNameDetailBuf"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:layout_alignBaseline="@id/txtFNameDetailBuf"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                tools:text="Петя" />
+
+            <TextView
+                android:id="@+id/txtLNameDetailBuf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtFNameDetail"
+                android:paddingTop="8dp"
+                android:text="@string/last_name"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtLNameDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtFNameDetail"
+                android:layout_toEndOf="@+id/txtLNameDetailBuf"
+                android:layout_toRightOf="@+id/txtLNameDetailBuf"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:layout_alignBaseline="@id/txtLNameDetailBuf"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                tools:text="Петя" />
+
+            <TextView
+                android:id="@+id/txtBirthdayDetailBuf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLNameDetail"
+                android:paddingTop="8dp"
+                android:text="@string/birthday"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtBirthdayDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLNameDetail"
+                android:layout_toEndOf="@+id/txtBirthdayDetailBuf"
+                android:layout_toRightOf="@+id/txtBirthdayDetailBuf"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:layout_alignBaseline="@id/txtBirthdayDetailBuf"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                tools:text="Петя" />
+
+            <TextView
+                android:id="@+id/txtAgeDetailBuf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtBirthdayDetail"
+                android:paddingTop="8dp"
+                android:text="@string/age"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtAgeDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtBirthdayDetail"
+                android:layout_toEndOf="@+id/txtAgeDetailBuf"
+                android:layout_toRightOf="@+id/txtAgeDetailBuf"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:layout_alignBaseline="@id/txtAgeDetailBuf"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                tools:text="Петя" />
+
+            <TextView
+                android:id="@+id/txtSpecDetailBuf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtAgeDetail"
+                android:paddingTop="8dp"
+                android:text="@string/spec"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtSpecDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtAgeDetail"
+                android:layout_toEndOf="@+id/txtSpecDetailBuf"
+                android:layout_toRightOf="@+id/txtSpecDetailBuf"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:layout_alignBaseline="@id/txtSpecDetailBuf"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                tools:text="Петя" />
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

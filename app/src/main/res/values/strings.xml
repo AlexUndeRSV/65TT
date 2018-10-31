@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TestTask65apps</string>
     <string name="age">Кол-во лет:</string>
+    <string name="details">в деталях</string>
+    <string name="first_name">Имя:</string>
+    <string name="last_name">Фамилия:</string>
+    <string name="birthday">Дата рождения:</string>
+    <string name="spec">Специальности:</string>
 </resources>

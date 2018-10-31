@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import com.lynx.testtask65apps.domain.dataclass.Response;
 import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
-import com.lynx.testtask65apps.presentation.workers.WorkersView;
-import com.lynx.testtask65apps.presentation.workers.WorkersPresenter;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
@@ -23,7 +21,7 @@ import com.lynx.testtask65apps.presentation.workers.adapter.WorkersAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkersFragment extends MvpAppCompatFragment implements WorkersView {
+public class WorkersFragment extends MvpAppCompatFragment implements WorkersView, WorkersAdapter.OnWorkerItemClickListener {
     public static final String TAG = "WorkersFragment";
     @InjectPresenter
     WorkersPresenter presenter;
@@ -73,6 +71,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
 
         recView = view.findViewById(R.id.recViewWorkers);
         adapter = new WorkersAdapter(getActivity());
+        adapter.setOnWorkerItemClickListener(this);
 
         recView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recView.addItemDecoration(new LinearItemDecorator(20));
@@ -84,5 +83,11 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
         this.workersList = workersList;
         adapter.setWorkersList(workersList);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Response response = workersList.get(position);
+        presenter.showDetailInfo(response);
     }
 }

@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class CorrectUtils {
 
     public static String getAge(String birthday) {
+        if(birthday == null || birthday.equals("-")) return "-";
         int age;
 
         Calendar calendar = Calendar.getInstance();
@@ -27,7 +28,7 @@ public class CorrectUtils {
     }
 
     public static String birthdayToRequiredLook(String birthday) {
-        if(birthday == null || birthday.isEmpty()) return null;
+        if(birthday == null || birthday.isEmpty()) return "-";
         Pattern pattern = Pattern.compile("(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-((19|20)\\d\\d)");
         if(pattern.matcher(birthday).matches()) return birthday.replace("-", ".");
         StringBuilder result = new StringBuilder();
