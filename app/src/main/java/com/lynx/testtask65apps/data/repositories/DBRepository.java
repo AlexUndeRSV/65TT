@@ -21,7 +21,7 @@ import java.util.List;
 public class DBRepository {
 
     private static final String DB_NAME = "workers_db";
-    private static final int DB_VERSION = 14;
+    private static final int DB_VERSION = 1;
 
     private DBHelper dbHelper;
 
