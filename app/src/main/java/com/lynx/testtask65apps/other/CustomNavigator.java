@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.lynx.testtask65apps.R;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class CustomNavigator implements Navigator{
 
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction
-//                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                    .setCustomAnimations(R.anim.enter_from_top, R.anim.exit_to_top, R.anim.enter_from_top, R.anim.exit_to_top)
                     .replace(containerId, fragment)
                     .addToBackStack(command.getScreenKey())
                     .commit();
@@ -103,7 +105,7 @@ public class CustomNavigator implements Navigator{
 
     private void forwardCommand(Forward forward) {
         fragmentManager.beginTransaction()
-//                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
+                .setCustomAnimations(R.anim.enter_from_top, R.anim.exit_to_top, R.anim.enter_from_top, R.anim.exit_to_top)
                 .replace(containerId, createFragment(forward.getScreenKey(), forward.getTransitionData()))
                 .addToBackStack(forward.getScreenKey())
                 .commit();
