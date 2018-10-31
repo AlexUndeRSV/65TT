@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.Constants.Database;
 
 public class DBHelper extends SQLiteOpenHelper {
