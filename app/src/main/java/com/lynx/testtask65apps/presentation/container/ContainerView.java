@@ -15,9 +15,9 @@ public interface ContainerView extends MvpView {
 
     void dataLoaded(boolean isFirstTime);
 
-    void disableSWT();
+    void disableSTR();
 
-    void enableSWT();
+    void enableSTR();
 
     void checkNetCon();
 }

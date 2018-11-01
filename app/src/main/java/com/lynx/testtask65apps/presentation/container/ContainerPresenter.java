@@ -59,14 +59,14 @@ public class ContainerPresenter extends MvpPresenter<ContainerView> {
             public void onSuccess(RequestResult requestResult) {
                 saveData(requestResult.getWorker(), isFirstTime);
                 EventBus.getDefault().post(new HideLoaderEvent());
-                EventBus.getDefault().post(new DisableSTREvent());
+                EventBus.getDefault().post(new EnableSTREvent());
             }
 
             @Override
             public void onError(Throwable e) {
                 Log.e(Constants.LogTags.ERROR, e.getMessage());
                 EventBus.getDefault().post(new HideLoaderEvent());
-                EventBus.getDefault().post(new DisableSTREvent());
+                EventBus.getDefault().post(new EnableSTREvent());
             }
         });
     }
@@ -126,11 +126,11 @@ public class ContainerPresenter extends MvpPresenter<ContainerView> {
 
     @Subscribe
     public void onDisableSTR(DisableSTREvent event) { // STR - swipe to refresh
-        getViewState().disableSWT();
+        getViewState().disableSTR();
     }
 
     @Subscribe
     public void onEnableSTR(EnableSTREvent event) { // STR - swipe to refresh
-        getViewState().enableSWT();
+        getViewState().enableSTR();
     }
 }

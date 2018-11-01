@@ -119,12 +119,12 @@ public class ContainerActivity extends MvpAppCompatActivity implements Container
     }
 
     @Override
-    public void disableSWT() {
+    public void disableSTR() {
         swipeRefreshLayout.setEnabled(false);
     }
 
     @Override
-    public void enableSWT() {
+    public void enableSTR() {
         swipeRefreshLayout.setEnabled(true);
     }
 

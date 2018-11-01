@@ -26,7 +26,7 @@ public class WorkersPresenter extends MvpPresenter<WorkersView> {
         EventBus.getDefault().post(new ShowBaseToolbarEvent());
     }
 
-    public void onCreate(String specId) {
+    public void showWorkers(String specId) {
         getViewState().setWorkersList(App.getDBRepository().getWorkersList(specId));
     }
 

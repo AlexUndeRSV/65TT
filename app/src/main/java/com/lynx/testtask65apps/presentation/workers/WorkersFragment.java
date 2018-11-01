@@ -48,7 +48,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
             specTitle = args.getString(Constants.BundleKeys.TITLE_KEY);
         }
 
-        presenter.onCreate(specId);
+        presenter.showWorkers(specId);
     }
 
     @Override
