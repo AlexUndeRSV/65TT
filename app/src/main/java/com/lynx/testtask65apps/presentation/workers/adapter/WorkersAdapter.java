@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.lynx.testtask65apps.R;
 import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.other.utils.CorrectUtils;
+import com.lynx.testtask65apps.other.utils.OnListItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,18 +20,14 @@ import java.util.List;
 
 public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersViewHolder> {
 
-    public interface OnWorkerItemClickListener {
-        void onItemClick(int position);
+    private OnListItemClickListener onListItemClickListener = null;
+
+    public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
+        this.onListItemClickListener = onListItemClickListener;
     }
 
-    private OnWorkerItemClickListener onWorkerItemClickListener = null;
-
-    public void setOnWorkerItemClickListener(OnWorkerItemClickListener onWorkerItemClickListener) {
-        this.onWorkerItemClickListener = onWorkerItemClickListener;
-    }
-
-    private Context ctx;
-    private List<Worker> workersList;
+    private final Context ctx;
+    private final List<Worker> workersList;
 
     public WorkersAdapter(Context ctx) {
         this.ctx = ctx;
@@ -38,7 +35,8 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
     }
 
     public void setWorkersList(List<Worker> workersList) {
-        this.workersList = workersList;
+        this.workersList.clear();
+        this.workersList.addAll(workersList);
     }
 
     @NonNull
@@ -82,10 +80,10 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
             imgWorkerAvatar = itemView.findViewById(R.id.imgWorkerAva);
 
             itemView.setOnClickListener((v) -> {
-                if (onWorkerItemClickListener != null) {
+                if (onListItemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        onWorkerItemClickListener.onItemClick(position);
+                        onListItemClickListener.onItemClick(position);
                     }
                 }
             });

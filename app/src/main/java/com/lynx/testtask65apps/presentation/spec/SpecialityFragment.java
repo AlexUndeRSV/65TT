@@ -12,11 +12,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.lynx.testtask65apps.R;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
+import com.lynx.testtask65apps.other.utils.OnListItemClickListener;
 import com.lynx.testtask65apps.presentation.spec.adapter.SpecialityAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SpecialityFragment extends MvpAppCompatFragment implements SpecialityView, SpecialityAdapter.OnSpecItemClickListener {
+public class SpecialityFragment extends MvpAppCompatFragment implements SpecialityView, OnListItemClickListener {
     public static final String TAG = "SpecialityFragment";
     @InjectPresenter
     SpecialityPresenter presenter;
@@ -24,7 +26,7 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
     private RecyclerView recView;
     private SpecialityAdapter adapter;
 
-    private List<Speciality> specList;
+    private final List<Speciality> specList = new ArrayList<>();
 
     public static SpecialityFragment newInstance(Bundle args) {
         SpecialityFragment fragment = new SpecialityFragment();
@@ -47,7 +49,7 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
 
         recView = view.findViewById(R.id.recViewSpec);
         adapter = new SpecialityAdapter(getActivity());
-        adapter.setOnSpecItemClickListener(this);
+        adapter.setOnListItemClickListener(this);
 
         recView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recView.addItemDecoration(new LinearItemDecorator(20));
@@ -64,7 +66,8 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
 
     @Override
     public void setSpecList(List<Speciality> specList) {
-        this.specList = specList;
+        this.specList.clear();
+        this.specList.addAll(specList);
         adapter.setSpecialityList(specList);
         adapter.notifyDataSetChanged();
     }

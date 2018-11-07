@@ -13,12 +13,13 @@ import com.lynx.testtask65apps.R;
 import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
+import com.lynx.testtask65apps.other.utils.OnListItemClickListener;
 import com.lynx.testtask65apps.presentation.workers.adapter.WorkersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkersFragment extends MvpAppCompatFragment implements WorkersView, WorkersAdapter.OnWorkerItemClickListener {
+public class WorkersFragment extends MvpAppCompatFragment implements WorkersView, OnListItemClickListener {
     public static final String TAG = "WorkersFragment";
     @InjectPresenter
     WorkersPresenter presenter;
@@ -29,7 +30,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
     private RecyclerView recView;
     private WorkersAdapter adapter;
 
-    private List<Worker> workersList;
+    private final List<Worker> workersList = new ArrayList<>();
 
     public static WorkersFragment newInstance(Bundle args) {
         WorkersFragment fragment = new WorkersFragment();
@@ -65,11 +66,11 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
         presenter.setToolbarTitle(specTitle);
         presenter.enableSTW();
 
-        workersList = new ArrayList<>();
+//        workersList = new ArrayList<>();
 
         recView = view.findViewById(R.id.recViewWorkers);
         adapter = new WorkersAdapter(getActivity());
-        adapter.setOnWorkerItemClickListener(this);
+        adapter.setOnListItemClickListener(this);
 
         recView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recView.addItemDecoration(new LinearItemDecorator(20));
@@ -78,7 +79,8 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
 
     @Override
     public void setWorkersList(List<Worker> workersList) {
-        this.workersList = workersList;
+        this.workersList.clear();
+        this.workersList.addAll(workersList);
         adapter.setWorkersList(workersList);
         adapter.notifyDataSetChanged();
     }

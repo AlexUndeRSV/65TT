@@ -120,7 +120,7 @@ public class CustomNavigator implements Navigator {
         }
     }
 
-    protected Fragment createFragment(String screenKey, Object data) {
+    private Fragment createFragment(String screenKey, Object data) {
         return Screen.valueOf(screenKey).create((Bundle) data);
     }
 

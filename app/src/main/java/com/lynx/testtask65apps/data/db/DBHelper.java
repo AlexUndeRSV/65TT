@@ -8,7 +8,6 @@ import com.lynx.testtask65apps.other.Constants.Database;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }

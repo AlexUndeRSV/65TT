@@ -13,20 +13,17 @@ public class App extends Application {
 
     public static App INSTANCE;
 
-    private Cicerone<Router> cicerone;
+    private final Cicerone<Router> cicerone = Cicerone.create();
 
-    private NetworkService networkService;
+    private final NetworkService networkService = new NetworkService();
 
-    private DBRepository dbRepository;
+    private final DBRepository dbRepository = new DBRepository(this);
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         INSTANCE = this;
-        cicerone = Cicerone.create();
-        networkService = new NetworkService();
-        dbRepository = new DBRepository(this);
     }
 
     public static NavigatorHolder getNavigatorHolder() {

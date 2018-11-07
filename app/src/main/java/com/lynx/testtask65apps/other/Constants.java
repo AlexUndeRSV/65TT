@@ -2,6 +2,8 @@ package com.lynx.testtask65apps.other;
 
 public class Constants {
 
+    private Constants(){}
+
     public static class Database {
 
         public static class SpecialityTable {

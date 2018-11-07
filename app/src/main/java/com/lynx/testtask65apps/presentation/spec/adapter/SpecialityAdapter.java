@@ -10,24 +10,21 @@ import android.widget.TextView;
 
 import com.lynx.testtask65apps.R;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
+import com.lynx.testtask65apps.other.utils.OnListItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.SpecialityViewHolder> {
 
-    public interface OnSpecItemClickListener {
-        void onItemClick(int position);
+    private OnListItemClickListener onListItemClickListener = null;
+
+    public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
+        this.onListItemClickListener = onListItemClickListener;
     }
 
-    private OnSpecItemClickListener onSpecItemClickListener = null;
-
-    public void setOnSpecItemClickListener(OnSpecItemClickListener onSpecItemClickListener) {
-        this.onSpecItemClickListener = onSpecItemClickListener;
-    }
-
-    private Context ctx;
-    private List<Speciality> specialityList;
+    private final Context ctx;
+    private final List<Speciality> specialityList;
 
     public SpecialityAdapter(Context ctx) {
         this.ctx = ctx;
@@ -35,7 +32,8 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
     }
 
     public void setSpecialityList(List<Speciality> specialityList) {
-        this.specialityList = specialityList;
+        this.specialityList.clear();
+        this.specialityList.addAll(specialityList);
     }
 
     @NonNull
@@ -66,10 +64,10 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
 
             txtTitle = itemView.findViewById(R.id.txtSpecTitle);
             itemView.setOnClickListener((v) -> {
-                if (onSpecItemClickListener != null) {
+                if (onListItemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        onSpecItemClickListener.onItemClick(position);
+                        onListItemClickListener.onItemClick(position);
                     }
                 }
             });

@@ -38,7 +38,7 @@ public class ContainerPresenter extends MvpPresenter<ContainerView> {
         checkDatabase(true);
     }
 
-    public void checkDatabase(boolean isFirstTime) {
+    private void checkDatabase(boolean isFirstTime) {
         if (App.getDBRepository().isEmpty()) {
             getViewState().checkNetCon();
         } else {

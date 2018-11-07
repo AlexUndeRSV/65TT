@@ -23,7 +23,7 @@ public class DBRepository {
     private static final String DB_NAME = "workers_db";
     private static final int DB_VERSION = 1;
 
-    private DBHelper dbHelper;
+    private final DBHelper dbHelper;
 
     public DBRepository(Context ctx) {
         this.dbHelper = new DBHelper(ctx, DB_NAME, null, DB_VERSION);
