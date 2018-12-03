@@ -55,6 +55,10 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
         return specialityList.size();
     }
 
+    public List<Speciality> getSpecList() {
+        return specialityList;
+    }
+
     public class SpecialityViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtTitle;

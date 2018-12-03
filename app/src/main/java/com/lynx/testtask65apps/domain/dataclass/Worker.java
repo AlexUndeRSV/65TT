@@ -28,12 +28,12 @@ public class Worker implements Parcelable {
 
     public Worker(){}
 
-    protected Worker(Parcel in) {
+    protected Worker(final Parcel in) {
         fName = in.readString();
         lName = in.readString();
         birthday = in.readString();
         avatrUrl = in.readString();
-        List<Speciality> specialityList = new ArrayList<>();
+        final List<Speciality> specialityList = new ArrayList<>();
         in.readTypedList(specialityList, Speciality.CREATOR);
     }
 

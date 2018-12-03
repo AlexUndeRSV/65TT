@@ -66,6 +66,10 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
         return workersList.size();
     }
 
+    public List<Worker> getWorkerList() {
+        return workersList;
+    }
+
     public class WorkersViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtFirstName, txtLastName, txtAge;

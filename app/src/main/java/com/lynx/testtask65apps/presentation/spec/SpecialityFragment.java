@@ -1,6 +1,7 @@
 package com.lynx.testtask65apps.presentation.spec;
 
 import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import com.lynx.testtask65apps.R;
 import com.lynx.testtask65apps.domain.dataclass.Speciality;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
 import com.lynx.testtask65apps.other.utils.OnListItemClickListener;
+import com.lynx.testtask65apps.other.utils.diffutils.BaseDiffUtilsCallback;
+import com.lynx.testtask65apps.other.utils.diffutils.SpecialityDiffUtilsCallback;
 import com.lynx.testtask65apps.presentation.spec.adapter.SpecialityAdapter;
 
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
     private SpecialityAdapter adapter;
 
     private List<Speciality> specList;
+
+    private int test = 1;
 
     public static SpecialityFragment newInstance(final Bundle args) {
         SpecialityFragment fragment = new SpecialityFragment();
@@ -47,7 +52,7 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
         presenter.hideBaseToolbar();
         presenter.enableSTW();
 
-        specList  = new ArrayList<>();
+        specList = new ArrayList<>();
 
         recView = view.findViewById(R.id.recViewSpec);
         adapter = new SpecialityAdapter(getActivity());
@@ -68,8 +73,14 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
 
     @Override
     public void setSpecList(final List<Speciality> specList) {
+
         this.specList = specList;
+
+        final BaseDiffUtilsCallback specialityDiffUtilsCallback = new SpecialityDiffUtilsCallback(adapter.getSpecList(), specList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(specialityDiffUtilsCallback);
+
         adapter.setSpecialityList(specList);
-        adapter.notifyDataSetChanged();
+
+        diffResult.dispatchUpdatesTo(adapter);
     }
 }

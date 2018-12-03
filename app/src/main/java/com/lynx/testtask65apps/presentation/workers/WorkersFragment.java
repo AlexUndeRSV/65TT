@@ -1,6 +1,7 @@
 package com.lynx.testtask65apps.presentation.workers;
 
 import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import com.lynx.testtask65apps.domain.dataclass.Worker;
 import com.lynx.testtask65apps.other.Constants;
 import com.lynx.testtask65apps.other.itemdecorators.LinearItemDecorator;
 import com.lynx.testtask65apps.other.utils.OnListItemClickListener;
+import com.lynx.testtask65apps.other.utils.diffutils.BaseDiffUtilsCallback;
+import com.lynx.testtask65apps.other.utils.diffutils.WorkersDiffUtilsCallback;
 import com.lynx.testtask65apps.presentation.workers.adapter.WorkersAdapter;
 
 import java.util.ArrayList;
@@ -79,9 +82,15 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
 
     @Override
     public void setWorkersList(final List<Worker> workersList) {
+
         this.workersList = workersList;
+
+        final BaseDiffUtilsCallback specialityDiffUtilsCallback = new WorkersDiffUtilsCallback(adapter.getWorkerList(), workersList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(specialityDiffUtilsCallback);
+
         adapter.setWorkersList(workersList);
-        adapter.notifyDataSetChanged();
+
+        diffResult.dispatchUpdatesTo(adapter);
     }
 
     @Override
