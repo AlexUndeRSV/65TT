@@ -21,8 +21,8 @@ public class SpecialityPresenter extends MvpPresenter<SpecialityView> {
         EventBus.getDefault().post(new HideBaseToolbarEvent());
     }
 
-    public void showWorkers(Speciality speciality) {
-        Bundle args = new Bundle();
+    public void showWorkers(final Speciality speciality) {
+        final Bundle args = new Bundle();
         args.putString(Constants.BundleKeys.ID_KEY, speciality.getId());
         args.putString(Constants.BundleKeys.TITLE_KEY, speciality.getName());
         App.getRouter().navigateTo(Screen.WORKERS.name(), args);

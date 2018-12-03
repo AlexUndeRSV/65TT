@@ -25,14 +25,14 @@ public class CustomNavigator implements Navigator {
     private LinkedList<String> stackCopy;
 
 
-    public CustomNavigator(Activity activity, FragmentManager fragmentManager, int containerId) {
+    public CustomNavigator(final Activity activity, final FragmentManager fragmentManager, final int containerId) {
         this.activity = activity;
         this.fragmentManager = fragmentManager;
         this.containerId = containerId;
     }
 
     @Override
-    public void applyCommand(Command command) {
+    public void applyCommand(final Command command) {
 
         copyStackToLocal();
 
@@ -47,14 +47,14 @@ public class CustomNavigator implements Navigator {
         }
     }
 
-    private void backTo(BackTo command) {
-        String key = command.getScreenKey();
+    private void backTo(final BackTo command) {
+        final String key = command.getScreenKey();
 
         if (key == null) {
             backToRoot();
         } else {
-            int index = stackCopy.indexOf(key);
-            int size = stackCopy.size();
+            final int index = stackCopy.indexOf(key);
+            final int size = stackCopy.size();
 
             if (index != -1) {
                 for (int i = 1; i < size - index; i++) {
@@ -70,15 +70,15 @@ public class CustomNavigator implements Navigator {
         stackCopy.clear();
     }
 
-    private void replaceCommand(Replace command) {
+    private void replaceCommand(final Replace command) {
 
-        Fragment fragment = createFragment(command.getScreenKey(), command.getTransitionData());
+        final Fragment fragment = createFragment(command.getScreenKey(), command.getTransitionData());
 
         if (stackCopy.size() > 0) {
             fragmentManager.popBackStack();
             stackCopy.removeLast();
 
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction
                     .setCustomAnimations(R.anim.enter_from_top, R.anim.exit_to_top, R.anim.enter_from_top, R.anim.exit_to_top)
                     .replace(containerId, fragment)
@@ -87,7 +87,7 @@ public class CustomNavigator implements Navigator {
             stackCopy.add(command.getScreenKey());
 
         } else {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction
                     .replace(containerId, fragment)
@@ -102,7 +102,7 @@ public class CustomNavigator implements Navigator {
         }
     }
 
-    private void forwardCommand(Forward forward) {
+    private void forwardCommand(final Forward forward) {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_top, R.anim.exit_to_top, R.anim.enter_from_top, R.anim.exit_to_top)
                 .replace(containerId, createFragment(forward.getScreenKey(), forward.getTransitionData()))
@@ -120,7 +120,7 @@ public class CustomNavigator implements Navigator {
         }
     }
 
-    private Fragment createFragment(String screenKey, Object data) {
+    private Fragment createFragment(final String screenKey, final Object data) {
         return Screen.valueOf(screenKey).create((Bundle) data);
     }
 

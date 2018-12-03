@@ -30,10 +30,10 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
     private RecyclerView recView;
     private WorkersAdapter adapter;
 
-    private final List<Worker> workersList = new ArrayList<>();
+    private List<Worker> workersList;
 
-    public static WorkersFragment newInstance(Bundle args) {
-        WorkersFragment fragment = new WorkersFragment();
+    public static WorkersFragment newInstance(final Bundle args) {
+        final WorkersFragment fragment = new WorkersFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +42,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
 
         if (args != null) {
             specId = args.getString(Constants.BundleKeys.ID_KEY);
@@ -66,7 +66,7 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
         presenter.setToolbarTitle(specTitle);
         presenter.enableSTW();
 
-//        workersList = new ArrayList<>();
+        workersList = new ArrayList<>();
 
         recView = view.findViewById(R.id.recViewWorkers);
         adapter = new WorkersAdapter(getActivity());
@@ -78,16 +78,15 @@ public class WorkersFragment extends MvpAppCompatFragment implements WorkersView
     }
 
     @Override
-    public void setWorkersList(List<Worker> workersList) {
-        this.workersList.clear();
-        this.workersList.addAll(workersList);
+    public void setWorkersList(final List<Worker> workersList) {
+        this.workersList = workersList;
         adapter.setWorkersList(workersList);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onItemClick(int position) {
-        Worker worker = workersList.get(position);
+    public void onItemClick(final int position) {
+        final Worker worker = workersList.get(position);
         presenter.showDetailInfo(worker);
     }
 }

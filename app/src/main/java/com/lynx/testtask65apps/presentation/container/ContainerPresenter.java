@@ -46,7 +46,7 @@ public class ContainerPresenter extends MvpPresenter<ContainerView> {
         }
     }
 
-    public void loadJsonData(boolean isFirstTime) {
+    public void loadJsonData(final boolean isFirstTime) {
         if (isFirstTime) EventBus.getDefault().post(new ShowLoaderEvent());
         EventBus.getDefault().post(new DisableSTREvent());
         loadWorkersInfoInteractor.loadWorkersInfo(new SingleObserver<RequestResult>() {
@@ -71,10 +71,10 @@ public class ContainerPresenter extends MvpPresenter<ContainerView> {
         });
     }
 
-    private void saveData(List<Worker> workerList, boolean isFirstTime) {
+    private void saveData(final List<Worker> workerList, final boolean isFirstTime) {
         App.getDBRepository().deleteTable(Constants.Database.WorkersTable.TABLE_NAME);
         App.getDBRepository().deleteTable(Constants.Database.SpecialityTable.TABLE_NAME);
-        for (Worker worker : workerList) {
+        for (final Worker worker : workerList) {
             App.getDBRepository().saveWorker(worker);
             App.getDBRepository().saveSpecialities(worker.getSpecialty());
         }

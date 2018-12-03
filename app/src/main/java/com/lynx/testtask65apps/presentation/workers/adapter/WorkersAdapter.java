@@ -22,19 +22,19 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
 
     private OnListItemClickListener onListItemClickListener = null;
 
-    public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
+    public void setOnListItemClickListener(final OnListItemClickListener onListItemClickListener) {
         this.onListItemClickListener = onListItemClickListener;
     }
 
     private final Context ctx;
     private final List<Worker> workersList;
 
-    public WorkersAdapter(Context ctx) {
+    public WorkersAdapter(final Context ctx) {
         this.ctx = ctx;
         workersList = new ArrayList<>();
     }
 
-    public void setWorkersList(List<Worker> workersList) {
+    public void setWorkersList(final List<Worker> workersList) {
         this.workersList.clear();
         this.workersList.addAll(workersList);
     }
@@ -42,13 +42,13 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
     @NonNull
     @Override
     public WorkersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.worker_item, parent, false);
+        final View view = LayoutInflater.from(ctx).inflate(R.layout.worker_item, parent, false);
         return new WorkersViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WorkersViewHolder holder, int position) {
-        Worker worker = workersList.get(position);
+        final Worker worker = workersList.get(position);
 
         holder.txtFirstName.setText(worker.getFName());
         holder.txtLastName.setText(worker.getLName());
@@ -71,7 +71,7 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
         private TextView txtFirstName, txtLastName, txtAge;
         private ImageView imgWorkerAvatar;
 
-        public WorkersViewHolder(View itemView) {
+        public WorkersViewHolder(final View itemView) {
             super(itemView);
 
             txtAge = itemView.findViewById(R.id.txtWorkerAge);
@@ -81,7 +81,7 @@ public class WorkersAdapter extends RecyclerView.Adapter<WorkersAdapter.WorkersV
 
             itemView.setOnClickListener((v) -> {
                 if (onListItemClickListener != null) {
-                    int position = getAdapterPosition();
+                    final int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         onListItemClickListener.onItemClick(position);
                     }

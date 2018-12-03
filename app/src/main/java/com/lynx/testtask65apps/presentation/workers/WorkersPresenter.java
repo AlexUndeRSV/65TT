@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 @InjectViewState
 public class WorkersPresenter extends MvpPresenter<WorkersView> {
 
-    public void setToolbarTitle(String toolbarTitle) {
+    public void setToolbarTitle(final String toolbarTitle) {
         EventBus.getDefault().post(new SetToolbarTitleEvent(toolbarTitle));
     }
 
@@ -26,12 +26,12 @@ public class WorkersPresenter extends MvpPresenter<WorkersView> {
         EventBus.getDefault().post(new ShowBaseToolbarEvent());
     }
 
-    public void showWorkers(String specId) {
+    public void showWorkers(final String specId) {
         getViewState().setWorkersList(App.getDBRepository().getWorkersList(specId));
     }
 
-    public void showDetailInfo(Worker worker) {
-        Bundle args = new Bundle();
+    public void showDetailInfo(final Worker worker) {
+        final Bundle args = new Bundle();
         args.putParcelable(Constants.BundleKeys.WORKER_KEY, worker);
         args.putParcelableArrayList(Constants.BundleKeys.SPEC_KEY, worker.getSpecialty());
         App.getRouter().navigateTo(Screen.DETAIL.name(), args);

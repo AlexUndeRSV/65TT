@@ -19,19 +19,19 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
 
     private OnListItemClickListener onListItemClickListener = null;
 
-    public void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
+    public void setOnListItemClickListener(final OnListItemClickListener onListItemClickListener) {
         this.onListItemClickListener = onListItemClickListener;
     }
 
     private final Context ctx;
     private final List<Speciality> specialityList;
 
-    public SpecialityAdapter(Context ctx) {
+    public SpecialityAdapter(final Context ctx) {
         this.ctx = ctx;
         specialityList = new ArrayList<>();
     }
 
-    public void setSpecialityList(List<Speciality> specialityList) {
+    public void setSpecialityList(final List<Speciality> specialityList) {
         this.specialityList.clear();
         this.specialityList.addAll(specialityList);
     }
@@ -45,7 +45,7 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
 
     @Override
     public void onBindViewHolder(@NonNull SpecialityViewHolder holder, int position) {
-        Speciality speciality = specialityList.get(position);
+        final Speciality speciality = specialityList.get(position);
 
         holder.txtTitle.setText(speciality.getName());
     }
@@ -59,7 +59,7 @@ public class SpecialityAdapter extends RecyclerView.Adapter<SpecialityAdapter.Sp
 
         private TextView txtTitle;
 
-        public SpecialityViewHolder(View itemView) {
+        public SpecialityViewHolder(final View itemView) {
             super(itemView);
 
             txtTitle = itemView.findViewById(R.id.txtSpecTitle);

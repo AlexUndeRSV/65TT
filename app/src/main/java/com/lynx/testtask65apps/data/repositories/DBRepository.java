@@ -21,21 +21,21 @@ import java.util.List;
 public class DBRepository {
 
     private static final String DB_NAME = "workers_db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     private final DBHelper dbHelper;
 
-    public DBRepository(Context ctx) {
+    public DBRepository(final Context ctx) {
         this.dbHelper = new DBHelper(ctx, DB_NAME, null, DB_VERSION);
     }
 
-    public void saveWorker(Worker worker) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    public void saveWorker(final Worker worker) {
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
 
-        ContentValues cv = new ContentValues();
-        List<String> idList = new ArrayList<>();
+        final ContentValues cv = new ContentValues();
+        final List<String> idList = new ArrayList<>();
 
         for (Speciality speciality : worker.getSpecialty()) {
             if (!idList.contains(speciality.getId())) idList.add(speciality.getId());
@@ -53,15 +53,15 @@ public class DBRepository {
     }
 
     public List<Speciality> getSpecList() {
-        List<Speciality> specialityList = new ArrayList<>();
+        final List<Speciality> specialityList = new ArrayList<>();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME, null);
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Speciality speciality = new Speciality();
+                final Speciality speciality = new Speciality();
 
                 speciality.setId(cursor.getString(cursor.getColumnIndex(SpecialityTable.Columns.COLUMN_ID)));
                 speciality.setName(cursor.getString(cursor.getColumnIndex(SpecialityTable.Columns.COLUMN_TITLE)));
@@ -76,7 +76,7 @@ public class DBRepository {
         return specialityList;
     }
 
-    public void saveSpecialities(List<Speciality> specialityList) {
+    public void saveSpecialities(final List<Speciality> specialityList) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -90,15 +90,15 @@ public class DBRepository {
         db.close();
     }
 
-    public List<Worker> getWorkersList(String specId) {
-        List<Worker> workerList = new ArrayList<>();
+    public List<Worker> getWorkersList(final String specId) {
+        final List<Worker> workerList = new ArrayList<>();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + WorkersTable.TABLE_NAME, null);
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + WorkersTable.TABLE_NAME, null);
 
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {
+        final Gson gson = new Gson();
+        final Type type = new TypeToken<List<String>>() {
         }.getType();
 
         boolean isContains;
@@ -107,16 +107,16 @@ public class DBRepository {
             do {
                 isContains = true;
 
-                ArrayList<Speciality> specialityList = new ArrayList<>();
+                final ArrayList<Speciality> specialityList = new ArrayList<>();
 
-                List<String> idList = gson.fromJson(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_SPEC_IDS)), type);
+                final List<String> idList = gson.fromJson(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_SPEC_IDS)), type);
                 if (!idList.contains(specId)) isContains = false;
 
                 for (String id : idList) {
                     specialityList.add(getSpecialityById(id));
                 }
 
-                Worker worker = new Worker();
+                final Worker worker = new Worker();
 
                 worker.setFName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_FIRST_NAME)));
                 worker.setLName(cursor.getString(cursor.getColumnIndex(WorkersTable.Columns.COLUMN_LAST_NAME)));
@@ -136,12 +136,12 @@ public class DBRepository {
         return workerList;
     }
 
-    private Speciality getSpecialityById(String id) {
-        Speciality speciality = new Speciality();
+    private Speciality getSpecialityById(final String id) {
+        final Speciality speciality = new Speciality();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME + " WHERE " + SpecialityTable.Columns.COLUMN_ID + " = ?", new String[]{id});
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME + " WHERE " + SpecialityTable.Columns.COLUMN_ID + " = ?", new String[]{id});
 
         if (cursor.moveToFirst()) {
             speciality.setId(id);
@@ -209,8 +209,8 @@ public class DBRepository {
 //        db.close();
 //    }
 
-    public void deleteTable(String tableName) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    public void deleteTable(final String tableName) {
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         db.delete(tableName, null, null);
 
@@ -220,9 +220,9 @@ public class DBRepository {
     public boolean isEmpty() {
         boolean isEmpty = true;
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME, null);
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SpecialityTable.TABLE_NAME, null);
 
         if (cursor.moveToFirst()) isEmpty = false;
 

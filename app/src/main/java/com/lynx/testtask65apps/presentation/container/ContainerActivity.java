@@ -112,7 +112,7 @@ public class ContainerActivity extends MvpAppCompatActivity implements Container
     }
 
     @Override
-    public void dataLoaded(boolean isFirstTime) {
+    public void dataLoaded(final boolean isFirstTime) {
         if (isFirstTime) App.getRouter().newRootScreen(Screen.SPEC.name());
         swipeRefreshLayout.setRefreshing(false);
         fragmentContainer.setClickable(true);

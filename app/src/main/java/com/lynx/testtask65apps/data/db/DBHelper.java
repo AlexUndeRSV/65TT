@@ -8,18 +8,18 @@ import com.lynx.testtask65apps.other.Constants.Database;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DBHelper(final Context context, final String name, final SQLiteDatabase.CursorFactory factory, final int version) {
         super(context, name, factory, version);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(final SQLiteDatabase db) {
         db.execSQL(Database.WorkersTable.Queries.TABLE_CREATE);
         db.execSQL(Database.SpecialityTable.Queries.TABLE_CREATE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         db.execSQL(Database.WorkersTable.Queries.TABLE_DROP);
         db.execSQL(Database.SpecialityTable.Queries.TABLE_DROP);
         onCreate(db);

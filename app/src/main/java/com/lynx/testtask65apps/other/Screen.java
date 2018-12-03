@@ -12,7 +12,7 @@ public enum Screen {
     WORKERS,
     DETAIL;
 
-    public MvpAppCompatFragment create(Bundle data) {
+    public MvpAppCompatFragment create(final Bundle data) {
         switch (this) {
             case SPEC:
                 return SpecialityFragment.newInstance(data);

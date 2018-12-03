@@ -26,9 +26,9 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
     private RecyclerView recView;
     private SpecialityAdapter adapter;
 
-    private final List<Speciality> specList = new ArrayList<>();
+    private List<Speciality> specList;
 
-    public static SpecialityFragment newInstance(Bundle args) {
+    public static SpecialityFragment newInstance(final Bundle args) {
         SpecialityFragment fragment = new SpecialityFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,6 +47,8 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
         presenter.hideBaseToolbar();
         presenter.enableSTW();
 
+        specList  = new ArrayList<>();
+
         recView = view.findViewById(R.id.recViewSpec);
         adapter = new SpecialityAdapter(getActivity());
         adapter.setOnListItemClickListener(this);
@@ -59,15 +61,14 @@ public class SpecialityFragment extends MvpAppCompatFragment implements Speciali
     }
 
     @Override
-    public void onItemClick(int position) {
-        Speciality speciality = specList.get(position);
+    public void onItemClick(final int position) {
+        final Speciality speciality = specList.get(position);
         presenter.showWorkers(speciality);
     }
 
     @Override
-    public void setSpecList(List<Speciality> specList) {
-        this.specList.clear();
-        this.specList.addAll(specList);
+    public void setSpecList(final List<Speciality> specList) {
+        this.specList = specList;
         adapter.setSpecialityList(specList);
         adapter.notifyDataSetChanged();
     }

@@ -6,14 +6,14 @@ import android.view.View;
 
 public class LinearItemDecorator extends RecyclerView.ItemDecoration {
 
-    private int space;
+    private final int space;
 
-    public LinearItemDecorator(int space) {
+    public LinearItemDecorator(final int space) {
         this.space = space;
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(final Rect outRect, final View view, final RecyclerView parent, final RecyclerView.State state) {
 
         if (parent.getChildLayoutPosition(view) == 0) {
             outRect.left = space;

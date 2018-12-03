@@ -30,8 +30,8 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     private CollapsingToolbarLayout collapsingToolbar;
     private Toolbar toolbar;
 
-    public static DetailFragment newInstance(Bundle args) {
-        DetailFragment fragment = new DetailFragment();
+    public static DetailFragment newInstance(final Bundle args) {
+        final DetailFragment fragment = new DetailFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,7 +40,7 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
         if (args != null) {
             worker = args.getParcelable(Constants.BundleKeys.WORKER_KEY);
             worker.setSpecialty(args.getParcelableArrayList(Constants.BundleKeys.SPEC_KEY));
@@ -65,7 +65,7 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
         collapsingToolbar = view.findViewById(R.id.collapsingToolbar);
 
-        String title = worker.getLName() + " " + getActivity().getString(R.string.details);
+        final String title = worker.getLName() + " " + getActivity().getString(R.string.details);
         collapsingToolbar.setTitle(title);
 
         collapsingImage = view.findViewById(R.id.collapsingImage);
@@ -80,7 +80,7 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
         txtLName.setText(worker.getLName());
         txtBirthday.setText(worker.getBirthday());
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < worker.getSpecialty().size(); i++) {
             sb.append(worker.getSpecialty().get(i).getName());
             if (i != worker.getSpecialty().size() - 1) sb.append(",\n");
